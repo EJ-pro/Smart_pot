@@ -13,6 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="20dp"
             android:paddingLeft="20dp"
             android:orientation="vertical">
             <TextView
@@ -26,6 +27,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingEnd="20dp"
                 android:layout_gravity="center">
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -58,8 +60,8 @@
 
                 <Button
                     android:id="@+id/addButton"
-                    android:layout_width="300dp"
-                    android:layout_height="400dp"
+                    android:layout_width="150dp"
+                    android:layout_height="200dp"
                     android:layout_gravity="center"
                     style="?android:borderlessButtonStyle"/>
             </FrameLayout>
@@ -211,6 +213,22 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="33dp"
+                android:text="이번주 수분량"
+                android:paddingBottom="20dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/plant_water_chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

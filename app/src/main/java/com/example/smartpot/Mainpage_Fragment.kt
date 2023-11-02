@@ -12,7 +12,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.smartpot.BlankFragment
 import com.example.smartpot.R
-import org.w3c.dom.Text
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.ValueFormatter
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class Mainpage_Fragment : Fragment() {
 
@@ -21,6 +29,7 @@ class Mainpage_Fragment : Fragment() {
     private lateinit var addText: TextView
     private lateinit var addImage: ImageView
     private lateinit var indicatorLayout: LinearLayout
+    private lateinit var chart: LineChart
     private val fragments = ArrayList<Fragment>()
 
     override fun onCreateView(
@@ -32,8 +41,9 @@ class Mainpage_Fragment : Fragment() {
         addButton = view.findViewById(R.id.addButton)
         addText = view.findViewById(R.id.addText)
         addImage = view.findViewById(R.id.addImage)
-
         indicatorLayout = view.findViewById(R.id.indicatorLayout)
+
+        chart = view.findViewById(R.id.plant_water_chart)
 
         val pagerAdapter = ScreenSlidePagerAdapter(requireActivity())
         viewPager.adapter = pagerAdapter
@@ -57,7 +67,6 @@ class Mainpage_Fragment : Fragment() {
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                // 마지막 페이지에 도달하면 addButton을 표시
                 if (position == fragments.size - 1) {
                     addButton.visibility = View.VISIBLE
                     addText.visibility = View.VISIBLE
@@ -65,8 +74,13 @@ class Mainpage_Fragment : Fragment() {
                 }
             }
         })
+
+        initChart()
+        setChartData()
+
         return view
     }
+
     private fun updateIndicators(currentPosition: Int) {
         indicatorLayout.removeAllViews()
         for (i in 0 until fragments.size) {
@@ -89,11 +103,74 @@ class Mainpage_Fragment : Fragment() {
         fragments.add(BlankFragment.newInstance(fragments.size + 1))
         viewPager.adapter?.notifyItemInserted(currentPosition + 1)
         viewPager.setCurrentItem(0, true)
+        updateIndicators(currentPosition)
         if (currentPosition == fragments.size - 1) {
             addButton.visibility = View.GONE
             addText.visibility = View.GONE
         }
     }
+
+    private fun initChart() {
+        chart.description.isEnabled = false
+        chart.setTouchEnabled(false)
+        chart.isDragEnabled = false
+        chart.setScaleEnabled(false)
+        chart.setPinchZoom(false)
+
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val currentDate = getCurrentDate()
+                val calendar = Calendar.getInstance()
+                calendar.time = currentDate
+                calendar.add(Calendar.DAY_OF_MONTH, value.toInt() - 6) // -6을 추가하여 역순으로 날짜를 계산
+                val formattedDate = SimpleDateFormat("MM/dd", Locale.getDefault()).format(calendar.time)
+                return formattedDate
+            }
+        }
+        val leftAxis = chart.axisLeft
+        leftAxis.axisMinimum = 1f
+        leftAxis.axisMaximum = 7f
+
+        xAxis.setCenterAxisLabels(false)
+        leftAxis.setDrawGridLines(false)
+
+        chart.axisRight.isEnabled = false
+        chart.axisLeft.isEnabled = false
+        val xLabels = chart.xAxis
+        xLabels.valueFormatter = object : ValueFormatter() {
+            override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+                val currentDate = getCurrentDate()
+                val calendar = Calendar.getInstance()
+                calendar.time = currentDate
+                calendar.add(Calendar.DAY_OF_MONTH, value.toInt() - 6)
+                val formattedDate = SimpleDateFormat("MM/dd", Locale.getDefault()).format(calendar.time)
+                val dayOfWeek = SimpleDateFormat("E", Locale.getDefault()).format(calendar.time)
+                return "$formattedDate\n$dayOfWeek"
+            }
+        }
+    }
+    private fun getCurrentDate(): Date {
+        val calendar = Calendar.getInstance()
+        return calendar.time
+    }
+    private fun setChartData() {
+        val entries = mutableListOf<Entry>()
+
+        // 1~7일 동안의 1~7의 값을 가지는 데이터를 entries에 추가
+        for (i in 0 until 7) {
+            entries.add(Entry(i.toFloat(), (i + 1).toFloat())) // 1~7의 값을 가지는 예시 데이터
+        }
+
+        val dataSet = LineDataSet(entries, "Plant Water Data")
+        dataSet.setDrawValues(false)
+
+        val lineData = LineData(dataSet)
+        chart.data = lineData
+        chart.invalidate()
+    }
+
     private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         override fun getItemCount(): Int = fragments.size
 
