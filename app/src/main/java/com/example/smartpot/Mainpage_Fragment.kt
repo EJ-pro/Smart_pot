@@ -1,4 +1,8 @@
+import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -6,6 +10,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -14,13 +20,17 @@ import com.example.smartpot.BlankFragment
 import com.example.smartpot.R
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+
+
 
 class Mainpage_Fragment : Fragment() {
 
@@ -57,12 +67,7 @@ class Mainpage_Fragment : Fragment() {
         viewPager.setCurrentItem(0, true)
 
         addButton.setOnClickListener {
-            addNewPage()
-            addNewPage()
-            addButton.visibility = View.GONE
-            addText.visibility = View.GONE
-            addImage.visibility = View.GONE
-            indicatorLayout.visibility = View.VISIBLE
+            showAddButtonDialog()
         }
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -75,10 +80,39 @@ class Mainpage_Fragment : Fragment() {
             }
         })
 
+        addLimitLine()
         initChart()
         setChartData()
 
         return view
+    }
+    private fun showAddButtonDialog() {
+        val items = arrayOf("Heart Hoya", "Stucky", "Cactus", "Fish Bone", "Devil Orchid")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose a plant")
+
+        builder.setItems(items) { _, which ->
+            // 다이얼로그에서 항목을 선택했을 때의 처리를 여기에 추가
+            when (which) {
+                0 -> addNewPage() // Heart Hoya 선택 시
+                // 다른 항목에 대한 처리 추가
+            }
+        }
+
+        builder.create().show()
+    }
+
+    private fun addLimitLine() {
+        val limitLine = LimitLine(50f, "Limit") // 가로 점선의 위치 (50%)와 라벨 설정
+        limitLine.lineColor = Color.RED // 점선 색상 설정
+        limitLine.lineWidth = 2f // 점선 두께 설정
+
+        val leftAxis: YAxis = chart.axisLeft
+        leftAxis.removeAllLimitLines()
+        leftAxis.addLimitLine(limitLine)
+        leftAxis.axisMinimum = 0f
+        leftAxis.axisMaximum = 100f
     }
 
     private fun updateIndicators(currentPosition: Int) {
@@ -98,7 +132,7 @@ class Mainpage_Fragment : Fragment() {
         }
     }
 
-    private fun addNewPage() {
+    fun addNewPage() {
         val currentPosition = viewPager.currentItem
         fragments.add(BlankFragment.newInstance(fragments.size + 1))
         viewPager.adapter?.notifyItemInserted(currentPosition + 1)
@@ -119,6 +153,8 @@ class Mainpage_Fragment : Fragment() {
 
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.axisLineWidth = 3f
+
         xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 val currentDate = getCurrentDate()
@@ -129,16 +165,13 @@ class Mainpage_Fragment : Fragment() {
                 return formattedDate
             }
         }
-        val leftAxis = chart.axisLeft
-        leftAxis.axisMinimum = 1f
-        leftAxis.axisMaximum = 7f
 
         xAxis.setCenterAxisLabels(false)
-        leftAxis.setDrawGridLines(false)
 
         chart.axisRight.isEnabled = false
         chart.axisLeft.isEnabled = false
         val xLabels = chart.xAxis
+
         xLabels.valueFormatter = object : ValueFormatter() {
             override fun getAxisLabel(value: Float, axis: AxisBase?): String {
                 val currentDate = getCurrentDate()
@@ -147,25 +180,34 @@ class Mainpage_Fragment : Fragment() {
                 calendar.add(Calendar.DAY_OF_MONTH, value.toInt() - 6)
                 val formattedDate = SimpleDateFormat("MM/dd", Locale.getDefault()).format(calendar.time)
                 val dayOfWeek = SimpleDateFormat("E", Locale.getDefault()).format(calendar.time)
-                return "$formattedDate\n$dayOfWeek"
+                return "$formattedDate"
             }
         }
+
     }
+
     private fun getCurrentDate(): Date {
         val calendar = Calendar.getInstance()
         return calendar.time
     }
+
     private fun setChartData() {
         val entries = mutableListOf<Entry>()
 
         // 1~7일 동안의 1~7의 값을 가지는 데이터를 entries에 추가
-        for (i in 0 until 7) {
-            entries.add(Entry(i.toFloat(), (i + 1).toFloat())) // 1~7의 값을 가지는 예시 데이터
-        }
+        entries.add(Entry(1.toFloat(), 100.toFloat()))
+        entries.add(Entry(2.toFloat(), 24.toFloat()))
+        entries.add(Entry(3.toFloat(), 35.toFloat()))
+        entries.add(Entry(4.toFloat(), 46.toFloat()))
+        entries.add(Entry(5.toFloat(), 57.toFloat()))
+        entries.add(Entry(6.toFloat(), 50.toFloat()))
+        entries.add(Entry(7.toFloat(), 1.toFloat()))
+        val colorString = "#54B22D"
+        val color = Color.parseColor(colorString)
+        val dataSet = LineDataSet(entries, null)
 
-        val dataSet = LineDataSet(entries, "Plant Water Data")
-        dataSet.setDrawValues(false)
-
+        dataSet.color = color
+        dataSet.setFormSize(0f) // 아이콘 크기를 0으로 설정
         val lineData = LineData(dataSet)
         chart.data = lineData
         chart.invalidate()

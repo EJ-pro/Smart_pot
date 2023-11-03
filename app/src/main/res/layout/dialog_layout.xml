@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/heartHoyaButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Heart Hoya" />
+
+    <Button
+        android:id="@+id/stuckyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stucky" />
+
+    <Button
+        android:id="@+id/cactusButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cactus" />
+
+    <Button
+        android:id="@+id/fishBoneButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fish Bone" />
+
+    <Button
+        android:id="@+id/devilOrchidButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Devil Orchid" />
+</LinearLayout>
