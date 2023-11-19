@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/navigation_1"
-        android:icon="@drawable/mainpage_icon"
+        android:icon="@drawable/icon_mainpage"
         android:enabled="true"
         android:state_selected="true"
         app:showAsAction="ifRoom"
@@ -11,17 +11,17 @@
 
     <item
         android:id="@+id/navigation_2"
-        android:icon="@drawable/plat_diary_icon"
+        android:icon="@drawable/icon_plat_diary"
         android:title=""/>
 
     <item
         android:id="@+id/navigation_3"
-        android:icon="@drawable/store_icon"
+        android:icon="@drawable/icon_store"
         android:title=""/>
 
     <item
         android:id="@+id/navigation_4"
-        android:icon="@drawable/mypage_icon"
+        android:icon="@drawable/icon_mypage"
         android:title=""/>
 
 

@@ -9,7 +9,9 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:paddingTop="20dp"
+        android:paddingLeft="14dp"
+        android:paddingBottom="20dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,11 +20,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3.814285714285714">
+                android:layout_weight="3">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:src="@drawable/smartpot_logo"/>
+                    android:src="@drawable/icon_smartpot_logo"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

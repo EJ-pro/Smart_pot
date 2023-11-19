@@ -12,7 +12,7 @@ class Plant_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.plant, container, false)
+        return inflater.inflate(R.layout.plant_diary_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

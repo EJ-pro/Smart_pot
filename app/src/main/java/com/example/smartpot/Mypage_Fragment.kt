@@ -13,7 +13,7 @@ class Mypage_Fragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.mypage, container, false)
+        return inflater.inflate(R.layout.my_page, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

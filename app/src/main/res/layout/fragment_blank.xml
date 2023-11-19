@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 android:layout_gravity="bottom"
-                android:src="@drawable/day_icon" />
+                android:src="@drawable/icon_day" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:src="@drawable/star_icon" />
+            android:src="@drawable/icon_star" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/temperature_icon"/>
+                    android:src="@drawable/icon_temperature"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -119,7 +119,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/temperature_icon"/>
+                    android:src="@drawable/icon_temperature"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -136,7 +136,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/temperature_icon"/>
+                    android:src="@drawable/icon_temperature"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -156,7 +156,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/plant_icon"/>
+                android:src="@drawable/icon_harthoya"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

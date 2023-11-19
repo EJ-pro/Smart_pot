@@ -46,7 +46,7 @@ class Mainpage_Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.mainpage, container, false)
+        val view = inflater.inflate(R.layout.main_page, container, false)
         viewPager = view.findViewById(R.id.viewPager)
         addButton = view.findViewById(R.id.addButton)
         addText = view.findViewById(R.id.addText)
